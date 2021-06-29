@@ -95,14 +95,14 @@ We can just simply use `spiral_phylo()` to make the plot. I also add the legend 
 spiral_initialize(xlim = c(0, 50455), scale_by = "curve", start = 90, end = 360*7 + 90, 
   reverse = TRUE, vp_param = list(x = unit(0, "npc"), just = "left"))
 spiral_track(height = 0.8, reverse_y = TRUE)
-h = spiral_phylo(tree, log = TRUE, group = cl[ tree$tip.label ], group_col = cate_col)
+h = spiral_phylo(tree, log = TRUE, group = taxon[ tree$tip.label ], group_col = taxon_col)
 
 at1 = c(0, 10, 100, 500, 2043)
 at2 = log10(at1 + 1)/h
 spiral_yaxis(at = at2, labels = paste0(at1, "mya"), side = "both")
 
 library(ComplexHeatmap)
-at = unique(cl[ tree$tip.label ])
+at = unique(rev(taxon[ tree$tip.label ]))
 at = at[!duplicated(at)]
 lgd = Legend(title = "Taxon", at = at, legend_gp = gpar(fill = taxon_col[at]))
 draw(lgd, x = unit(1, "npc") + unit(4, "mm"), just = "left")
