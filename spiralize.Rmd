@@ -47,11 +47,11 @@ spiral](https://en.wikipedia.org/wiki/Archimedean_spiral) has the following form
 
 $$ r = b \cdot \theta $$
 
-where $b$ controls the distance between two loops. The radical distance between two neighbouring loops for a given $\theta$ is:
+where $b$ controls the distance between two loops. The radial distance between two neighbouring loops for a given $\theta$ is:
 
 $$ d(\theta) = r(\theta + 2\pi) - r(\theta) = b \cdot (\theta + 2\pi) - b \cdot \theta = b \cdot 2\pi $$
 
-This shows the radical distance between two neighbouring loops is independent to the value of $\theta$ and is a constant value. The following 
+This shows the radial distance between two neighbouring loops is independent to the value of $\theta$ and is a constant value. The following 
 figure demonstrates an Archimedean spiral with 4 loops ($\theta \in [0, 8\pi]$).
 
 
@@ -98,7 +98,7 @@ in this vignette.
 
 Since the distance between any two neighbouring loops for any given $\theta$ is
 constant, it is a ideal place to put tracks along the spiral where the tracks
-have identical radical heights everywhere. Later the tracks can be served as
+have identical radial heights everywhere. Later the tracks can be served as
 virtual coordinate systems to map to data. This is why the package is called
 "_spiralize_" (to transform a normal Cartesian coordinate system to a curved
 spiral shape). The following two figures demonstrate a spiral with one track
@@ -442,6 +442,14 @@ spiral_track(ylim = c(0, 100))
 spiral_yaxis()
 ```
 
+Direction of _y_-axis is by default pointing to the outside of spirals. This
+direction can be reversed by setting argument `reverse_y = TRUE` in
+`spiral_track()`, but in applications it is rarely used.
+
+```{r, eval = FALSE}
+spiral_track(reverse_y = TRUE)
+```
+
 ## Graphics functions
 
 Tracks are created with data ranges on both _x_-axis and _y_-axis. Now the tracks can be thought as
@@ -472,7 +480,7 @@ spiral_track()
 spiral_lines(x, y)
 ```
 
-Argument `type` can be set to `"h"` so that vertical lines (or radical lines
+Argument `type` can be set to `"h"` so that vertical lines (or radial lines
 if you take polar coordinates as reference) are drawn to the baseline for each
 data point.
 
@@ -1103,6 +1111,22 @@ for(i in seq_along(tb)) {
         spiral_highlight(sum(tb[1:(i-1)]), sum(tb[1:i]), gp = gpar(fill = i))
     }
 }
+```
+
+The phylogenetic tree can also be directly colored by a categorical variable. We use the variable `split` generated in the previous example.
+
+```{r}
+spiral_initialize(xlim =c(0, n), start = 360, end = 360*2 + 180, scale_by = "curve_length")
+spiral_track()
+spiral_phylo(tree.hiv, group = split)
+```
+
+Both dendrograms and phylogenetic trees can face the outside of the spiral, just by reversing _y_-axis in `spiral_track()`.
+
+```{r}
+spiral_initialize(xlim =c(0, n), start = 360, end = 360*2 + 180, scale_by = "curve_length")
+spiral_track(reverse_y = TRUE)
+spiral_phylo(tree.hiv)
 ```
 
 ## Utility functions
