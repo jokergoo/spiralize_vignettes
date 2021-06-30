@@ -1102,14 +1102,10 @@ spiral_initialize(xlim =c(0, n), start = 360, end = 360*2 + 180, scale_by = "cur
 spiral_track()
 spiral_phylo(tree.hiv)
 
-split = cutree(phylo_to_dendrogram(tree.hiv), k = 8)
+split = dendextend::cutree(phylo_to_dendrogram(tree.hiv), k = 8)
 tb = table(split)
 for(i in seq_along(tb)) {
-    if(i == 1) {
-        spiral_highlight(0, tb[1], gp = gpar(fill = i))
-    } else {
-        spiral_highlight(sum(tb[1:(i-1)]), sum(tb[1:i]), gp = gpar(fill = i))
-    }
+    spiral_highlight(sum(tb[seq_len(i-1)]), sum(tb[seq_len(i)]), gp = gpar(fill = i))
 }
 ```
 

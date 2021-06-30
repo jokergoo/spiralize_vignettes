@@ -118,12 +118,8 @@ spiral_rect(1:n - 1, 0, 1:n, 1, gp = gpar(fill = df$tumor_col, col = NA))
 r1 = rle(as.vector(df$tumor_type))
 
 for(i in seq_along(r1$lengths)) {
-    if(i == 1) {
-        spiral_text(r1$lengths[1]/2, 0.5, r1$values[1], facing = "curved_inside", nice_facing = TRUE)
-    } else {
-        spiral_text( (sum(r1$lengths[1:(i-1)]) + sum(r1$lengths[1:i]))/2, 0.5, r1$values[i], 
-            facing = "curved_inside", nice_facing = TRUE)
-    }
+    spiral_text( (sum(r1$lengths[seq_len(i-1)]) + sum(r1$lengths[seq_len(i)]))/2, 0.5, r1$values[i], 
+        facing = "curved_inside", nice_facing = TRUE)
 }
 ```
 
@@ -145,21 +141,13 @@ spiral_rle = function(x, col, labels = FALSE) {
     x = as.vector(x) # in case it is a factor
     r1 = rle(x)
     for(i in seq_along(r1$lengths)) {
-        if(i == 1) {
-            spiral_rect(0, 0, r1$lengths[1], 1, gp = gpar(fill = col[r1$values[1]], col = NA))
-        } else {
-            spiral_rect(sum(r1$lengths[1:(i-1)]), 0, sum(r1$lengths[1:i]), 1, gp = gpar(fill = col[r1$values[i]], col = NA))
-        }
+        spiral_rect(sum(r1$lengths[seq_len(i-1)]), 0, sum(r1$lengths[seq_len(i)]), 1, gp = gpar(fill = col[r1$values[i]], col = NA))
     }
 
     if(labels) {
         for(i in seq_along(r1$lengths)) {
-            if(i == 1) {
-                spiral_text(r1$lengths[1]/2, 0.5, r1$values[1], facing = "curved_inside", nice_facing = TRUE)
-            } else {
-                spiral_text( (sum(r1$lengths[1:(i-1)]) + sum(r1$lengths[1:i]))/2, 0.5, r1$values[i], 
-                    facing = "curved_inside", nice_facing = TRUE)
-            }
+            spiral_text( (sum(r1$lengths[seq_len(i-1)]) + sum(r1$lengths[seq_len(i)]))/2, 0.5, r1$values[i], 
+                facing = "curved_inside", nice_facing = TRUE)
         }
     }
 }
