@@ -1157,6 +1157,95 @@ The following three functions get or set the tracks:
 - `set_current_track()`
 - `n_track()`
 
+There is also one more function which converts canvas coordinates to data
+coordinates. The data points are assigned to the nearest inner loops. 
+For a data point $P$, denote $r$ as the distance to the origin, $\theta$ is the angle to the line $x > 0, y = 0$ (reverse-clockwise angle).
+Let's assume the value of $\theta$ is between 0 and $2\pi$ (which is actually not important if $\theta$ multiplies with $2\pi$). Denote
+$r_k$ and $r_{k+1}$ are the radius of the two loops of the spiral at $\theta + 2\pi \cdot a$
+and $\theta + 2\pi \cdot (a+1)$ that below and above the data point (here $a$ is an integer which should be properly calculated to make sure
+$p$ is between loop $k$ and $k+1$), then the data point $P$ is
+assigned to the loop $k$.
+
+- `cartesian_to_xy()`
+
+There is an interesting application for `cartesian_to_xy()` which is to overlay an image to the spiral. If we treat each pixel as a data point, 
+then we can only draw those pixels which are inside a track on the spiral. In the following example, I first load an image object:
+
+```{r}
+load(system.file("extdata", "doodle.RData", package = "circlize")) # the loaded object is `img_list`
+img = img_list[[1]] # img_list contains several images as `raster` objects, here we only use the first one.
+img = apply(img, 1:2, function(x) rgb(x[1], x[2], x[3])) # convert to color characters
+```
+
+Now `img` is a matrix of colors. Note the first element in `img` (i.e. `img[1, 1]`) corresponds to the top left pixel of the image.
+In the following code, I basically test whether the pixels are in the track. If they are, the positions and corresponding colors are saved.
+
+```{r}
+nr = nrow(img)
+nc = ncol(img)
+
+spiral_initialize(start = 0, end = 360*5, polar_lines = FALSE)
+spiral_track(background = TRUE)
+
+s = current_spiral()
+
+all_x = NULL
+all_y = NULL
+all_col = NULL
+for(i in 1:nr) {
+    for(j in 1:nc) {
+        x = (j - nc/2)/nc*1.5*s$max_radius
+        y = -(i - nr/2)/nr*1.5*s$max_radius
+
+        df = cartesian_to_xy(x, y)
+
+        if(is_in_track(df$x, df$y)) {
+            all_x = c(all_x, df$x)
+            all_y = c(all_y, df$y)
+            all_col = c(all_col, img[i, j])
+        }
+    }
+}
+
+spiral_points(all_x, all_y, pch = 16, gp = gpar(col = all_col), size = unit(2, "pt"))
+```
+
+Next two plots are drawn with spirals of 20 loops and 50 loops. Also the background of tracks are not drawn.
+
+
+```{r, echo = FALSE, fig.width = 16, fig.height = 8}
+make_plot = function(k) {
+    spiral_initialize(start = 0, end = 360*k, polar_lines = FALSE)
+    spiral_track(background = FALSE)
+
+    s = current_spiral()
+
+    all_x = NULL
+    all_y = NULL
+    all_col = NULL
+    for(i in 1:nr) {
+        for(j in 1:nc) {
+            x = (j - nc/2)/nc*1.5*s$max_radius
+            y = -(i - nr/2)/nr*1.5*s$max_radius
+
+            df = cartesian_to_xy(x, y)
+
+            if(is_in_track(df$x, df$y)) {
+                all_x = c(all_x, df$x)
+                all_y = c(all_y, df$y)
+                all_col = c(all_col, img[i, j])
+            }
+        }
+    }
+
+    spiral_points(all_x, all_y, pch = 16, gp = gpar(col = all_col), size = unit(2, "pt"))
+}
+
+p1 = grid.grabExpr(make_plot(20))
+p2 = grid.grabExpr(make_plot(50))
+plot_grid(p1, p2)
+```
+
 
 ## Session info
 
