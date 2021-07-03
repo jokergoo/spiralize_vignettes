@@ -26,6 +26,8 @@ knitr::opts_chunk$set(
 options(width = 100)
 ```
 
+_This vignette is built with spiralize `r packageDescription('spiralize', fields = "Version")`._
+
 
 [Hedges et. al., 2015](https://doi.org/10.1093/molbev/msv037) visualized a phylogenetic tree of 50455 species with spiral.
 Here I try to reimplement the plot. All the files used in this vignette are from http://www.biodiversitycenter.org/ttol.
@@ -45,7 +47,7 @@ In the study, the tree was colored by taxonomic groups. Unfortunately I can not 
 information, nevertheless, authors provided phologenetic trees for individual taxa from which we can manually
 establish the relationship between speices and taxa.
 
-```{r}
+```{r, eval = FALSE}
 files = scan(textConnection(
 "~/workspace/spiral/life_of_tree/10.TTOL_squamates_unsmoothed.nwk
 ~/workspace/spiral/life_of_tree/11.TTOL_amphibians_unsmoothed.nwk
@@ -84,6 +86,15 @@ library(Polychrome)
 taxon_col = createPalette(length(taxon_level), c("#FF0000", "#00FF00", "#0000FF"), range = c(30, 80))
 taxon_col = structure(taxon_col, names = taxon_level)
 taxon = structure(rep(taxon_level, times = len), names = unlist(lt))
+```
+
+The two objects `taxon` and `taxon_col` are already saved in the package, so we can directly
+load them:
+
+```{r}
+lt = readRDS(system.file("extdata", "life_tree.rds", package = "spiralize"))
+taxon = lt$taxon
+taxon_col = lt$taxon_col
 head(taxon)
 ```
 
@@ -99,7 +110,7 @@ h = spiral_phylo(tree, log = TRUE, group = taxon[ tree$tip.label ], group_col = 
 
 at1 = c(0, 10, 100, 500, 2043)
 at2 = log10(at1 + 1)/h
-spiral_yaxis(at = at2, labels = paste0(at1, "mya"), side = "both")
+spiral_yaxis(at = at2, labels = paste0(at1, "mya"), side = "both") # mya means million years ago
 
 library(ComplexHeatmap)
 at = unique(rev(taxon[ tree$tip.label ]))

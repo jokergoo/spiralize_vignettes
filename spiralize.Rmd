@@ -33,6 +33,8 @@ library(cowplot)
 library(GetoptLong)
 ```
 
+_This vignette is built with spiralize `r packageDescription('spiralize', fields = "Version")`._
+
 In this vignette, I describe the package **spiralize** which visualizes data along an Archimedean spiral.
 It has two major advantages for visualization:
 
@@ -134,7 +136,7 @@ popViewport()
 
 Denote the maximal radius of the spiral as $d_{max} = b \cdot \theta_{max}$,
 and denote the length of the spiral as $l$ (which has a complex form, see https://downloads.imagej.net/fiji/snapshots/arc_length.pdf), we can
-treat $d_{max}$ as the resolution of the visualization applied in the normal
+treat $2d_{max}$ as the resolution of the visualization applied in the normal
 Cartesian coordinate system and $l$ as the resolution of the visualization
 applied on the spiral. Then the ratio of the two resolutions is:
 
@@ -431,6 +433,13 @@ spiral_initialize()
 spiral_track(height = 0.4, background_gp = gpar(fill = 2))
 spiral_track(height = 0.2, background_gp = gpar(fill = 3))
 spiral_track(height = 0.1, background_gp = gpar(fill = 4))
+```
+
+The value for `height` can also be `unit` object.
+
+```{r, eval = FALSE}
+spiral_initialize()
+spiral_track(height = unit(1, "cm"))
 ```
 
 Data range on _y_-axis is specified by the argument `ylim`. In the following example, I also add a _y_-axis

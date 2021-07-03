@@ -32,6 +32,9 @@ library(cowplot)
 library(GetoptLong)
 ```
 
+_This vignette is built with spiralize `r packageDescription('spiralize', fields = "Version")`._
+
+
 ## Work with date/time object
 
 For time series data, values on _x_-axis are time points in a certain unit, e.g.

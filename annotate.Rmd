@@ -26,6 +26,8 @@ knitr::opts_chunk$set(
 options(width = 100)
 ```
 
+_This vignette is built with spiralize `r packageDescription('spiralize', fields = "Version")`._
+
 In this vignette, I demonstrate how to add text and legend to the spiral plot.
 
 
