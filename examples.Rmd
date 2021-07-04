@@ -517,6 +517,40 @@ library(cowplot)
 plot_grid(plotlist = pl, ncol = 4)
 ```
 
+## Fill spiral tracks with images
+
+The RData file `doodle.RData` returns the object `img_list` which contains raster objects for 32 images.
+First I merge them as a single image.
+
+```{r}
+load(system.file("extdata", "doodle.RData", package = "circlize"))
+img = do.call(cbind, lapply(img_list, function(x) as.matrix(as.raster(x)[1:106, 1:150])))
+img = as.raster(img)
+dim(img)
+```
+
+Next simply call `spiral_track()` with `facing = "curved_inside"`:
+
+```{r}
+spiral_initialize(scale = "curve", start = 180, end = 360*3)
+spiral_track(background = FALSE)
+spiral_raster(0.5, 0.5, img, facing = "curved_inside")
+```
+
+The second example is the spiralization of the masterpiece "清明上河图" (Along the River During the Qingming Festival, https://en.wikipedia.org/wiki/Along_the_River_During_the_Qingming_Festival).
+There are several versions in history. Here I use the one recreated in the Qing dynasty which is brighter and more colorful. The file `Along_the_River_During_the_Qingming_Festival_(Qing_Court_Version).jpg` is downloaded from https://zh.wikipedia.org/wiki/%E6%B8%85%E6%98%8E%E4%B8%8A%E6%B2%B3%E5%9C%96#/media/File:Along_the_River_During_the_Qingming_Festival_(Qing_Court_Version).jpg.
+
+Note it takes very long time to generate this plot.
+
+```{r, eval = FALSE}
+image = "~/Downloads/Along_the_River_During_the_Qingming_Festival_(Qing_Court_Version).jpg"
+spiral_initialize(start = 180, end = 360*3, scale_by = "curve")
+spiral_track()
+spiral_raster(0.5, 0.5, image, facing = "curved_inside")
+```
+
+<img src="qing_ming_shang_he_tu.png" width="100%" />
+
 <script src="jquery.min.js"></script>
 <script src="jquery.sticky.js"></script>
 <script>

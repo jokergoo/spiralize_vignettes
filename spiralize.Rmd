@@ -1002,6 +1002,43 @@ p2 = grid.grabExpr({
 plot_grid(p1, p2)
 ```
 
+Argument `facing` can be set to one of `"curved_inside"` or `"curved_outside"`
+so that the image is filled on the track. In this case, arguments `width` and
+`height` can be set as values measured in the data coordiantes. Note every
+pixel in the image is actually drawn as a "spiral rectangle", so the plotting
+would be slow for large images.
+
+```{r, eval = FALSE}
+# the left plot
+spiral_initialize()
+spiral_track()
+spiral_raster(c(0.2, 0.4, 0.6, 0.8), 0.5, image, width = 0.05, 
+    height = 1, facing = "curved_inside")
+
+# the right plot
+spiral_initialize(scale_by = "curve")
+spiral_track()
+spiral_raster(c(0.2, 0.4, 0.6, 0.8), 0.5, image, width = 0.05, 
+    height = 1, facing = "curved_inside")
+```
+
+```{r, echo = FALSE, fig.width = 10, fig.height = 5}
+p1 = grid.grabExpr({
+    spiral_initialize()
+    spiral_track()
+    spiral_raster(c(0.2, 0.4, 0.6, 0.8), 0.5, image, width = 0.05, 
+        height = 1, facing = "curved_inside")
+})
+
+p2 = grid.grabExpr({
+    spiral_initialize(scale_by = "curve")
+    spiral_track()
+    spiral_raster(c(0.2, 0.4, 0.6, 0.8), 0.5, image, width = 0.05, 
+        height = 1, facing = "curved_inside")
+})
+plot_grid(p1, p2)
+```
+
 ### Arrows
 
 `spiral_arrow()` draws arrows along the spiral.
