@@ -81,6 +81,19 @@ also be used as the _x_-locations for the low-level graphics functions. For exam
 spiral_points("2021-01-01", 0.5)
 ```
 
+Argument `at` can be set to a vector of times to control the breaks on the axis.
+In the next example, I set the time interval to every two hours.
+
+```{r}
+spiral_initialize_by_time(xlim = c("2021-01-01 00:00:00", "2021-01-05 00:00:00"))
+spiral_track(height = 0.6)
+
+library(lubridate)
+# `by` is measured in seconds
+at = seq(as.POSIXlt("2021-01-01 00:00:00"), as.POSIXlt("2021-01-05 00:00:00"), by = 2*60*60)
+spiral_axis(at = at)
+```
+
 ## Work with genomic coordinates
 
 Genomic data can be represented as a data frame (e.g. in _bed_ format), or as
