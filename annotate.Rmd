@@ -21,7 +21,8 @@ knitr::opts_chunk$set(
     warning = FALSE,
     fig.width = 5,
     fig.height = 5,
-    fig.align = "center"
+    fig.align = "center",
+    fig.retina = 2
 )
 options(width = 100)
 ```

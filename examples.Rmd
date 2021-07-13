@@ -22,7 +22,8 @@ knitr::opts_chunk$set(
     warning = FALSE,
     fig.width = 7,
     fig.height = 7,
-    fig.align = "center"
+    fig.align = "center",
+    fig.retina = 2
 )
 options(width = 100)
 ```
@@ -360,7 +361,7 @@ spiral_lines(TRACK_META$xlim, 0.5, gp = gpar(col = "#888888"))
 at = seq(10, n, by = 10)
 spiral_points(at, 0.5, pch = 16, size = unit(3, "pt"))
 l = at %% 100 == 0
-spiral_text(at[l] - 0.5, 1, at[l], just = "bottom",
+spiral_text(at[l] - 0.5, 1, paste0(at[l], "bp"), just = "bottom",
     facing = "inside", nice_facing=T, gp = gpar(fontsize = 6, col = "#444444"))
 ```
 
@@ -380,16 +381,16 @@ exons = exons[exons[, 8] == "exon", ]
 spiral_track(height = 0.1, background = FALSE)
 spiral_lines(TRACK_META$xlim, 0.5)
 spiral_rect(exons[, 2], 0.1, exons[, 3], 0.9, gp = gpar(fill = "grey"))
-spiral_segments(49314320, 0, 49314320, -1)
-spiral_segments(49314320, -1, 49314320 - 200, -1, arrow = arrow(length = unit(2, "mm")))
-spiral_text(49314320, -1, "TSS", hjust = -0.2, facing = "outside", gp = gpar(fontsize = 6))
+spiral_segments(49314286, 0, 49314286, -1)
+spiral_segments(49314286, -1, 49314286 - 200, -1, arrow = arrow(length = unit(2, "mm")))
+spiral_text(49314286, -1, "TSS", hjust = -0.2, facing = "outside", gp = gpar(fontsize = 8))
 
-spiral_segments(49298321, 0, 49298321, -1)
-spiral_text(49298321, -1, "TES", hjust = -0.2, facing = "inside", gp = gpar(fontsize = 6))
-spiral_points(49298321, -1, pch = 16)
+spiral_segments(49298318, 0, 49298318, -1)
+spiral_text(49298318, -1, "TES", hjust = -0.2, facing = "inside", gp = gpar(fontsize = 8))
+spiral_points(49298318, -1, pch = 16)
 
 meth = df_list$meth
-spiral_track(height = 0.1)
+spiral_track(height = 0.13)
 meth_col = colorRamp2(c(0, 0.5, 1), c("blue", "white", "red"))
 spiral_segments(meth[, 2], 0, meth[, 2], 1, gp = gpar(col = meth_col(meth[, 5])))
 
@@ -401,7 +402,7 @@ i = 1
 for(mark in grep("H3", names(df_list), value = TRUE)) {
     df = df_list[[mark]]
     i = i + 1
-    spiral_track(height = 0.1)
+    spiral_track(height = 0.13)
     lt = spiral_horizon( (df[, 2] + df[, 3])/2, df[, 5], pos_fill = i,
         use_bars = TRUE, bar_width = df[, 3] - df[, 2])
     lgd_list = c(lgd_list, list(horizon_legend(lt, title = mark)))
@@ -409,21 +410,22 @@ for(mark in grep("H3", names(df_list), value = TRUE)) {
 
 spiral_lines(TRACK_META$xlim, 1)
 at = seq(df_list$range[1, 3], df_list$range[1, 2], by = -1000)
-labels = -(seq(df_list$range[1, 3], df_list$range[1, 2], by = -1000) - 49314320)
+labels = -(seq(df_list$range[1, 3], df_list$range[1, 2], by = -1000) - 49314286)
 labels = paste0(labels/1000, "KB")
-spiral_axis(at = at, labels = labels)
+labels[labels == "11KB"] = ""
+spiral_axis(at = at, labels = labels, labels_gp = gpar(fontsize = 8))
 
-spiral_text(49297321, 0.5, "Methylation", hjust = 0, facing = "inside", gp = gpar(fontsize = 6), track_index = 2)
-spiral_text(49297321, 0.5, "H3K4me1", hjust = 0, facing = "inside", gp = gpar(fontsize = 6), track_index = 3)
-spiral_text(49297321, 0.5, "H3K4me3", hjust = 0, facing = "inside", gp = gpar(fontsize = 6), track_index = 4)
-spiral_text(49297321, 0.5, "H3K9me3", hjust = 0, facing = "inside", gp = gpar(fontsize = 6), track_index = 5)
-spiral_text(49297321, 0.5, "H3K27ac", hjust = 0, facing = "inside", gp = gpar(fontsize = 6), track_index = 6)
+spiral_text(49297318, 0.5, "Methylation", hjust = 0, facing = "inside", gp = gpar(fontsize = 8), track_index = 2)
+spiral_text(49297318, 0.5, "H3K4me1", hjust = 0, facing = "inside", gp = gpar(fontsize = 8), track_index = 3)
+spiral_text(49297318, 0.5, "H3K4me3", hjust = 0, facing = "inside", gp = gpar(fontsize = 8), track_index = 4)
+spiral_text(49297318, 0.5, "H3K9me3", hjust = 0, facing = "inside", gp = gpar(fontsize = 8), track_index = 5)
+spiral_text(49297318, 0.5, "H3K27ac", hjust = 0, facing = "inside", gp = gpar(fontsize = 8), track_index = 6)
 
-spiral_text(49315320, 0.5, "Methylation", hjust = 1, facing = "inside", gp = gpar(fontsize = 6), track_index = 2)
-spiral_text(49315320, 0.5, "H3K4me1", hjust = 1, facing = "inside", gp = gpar(fontsize = 6), track_index = 3)
-spiral_text(49315320, 0.5, "H3K4me3", hjust = 1, facing = "inside", gp = gpar(fontsize = 6), track_index = 4)
-spiral_text(49315320, 0.5, "H3K9me3", hjust = 1, facing = "inside", gp = gpar(fontsize = 6), track_index = 5)
-spiral_text(49315320, 0.5, "H3K27ac", hjust = 1, facing = "inside", gp = gpar(fontsize = 6), track_index = 6)
+spiral_text(49315286, 0.5, "Methylation", hjust = 1, facing = "inside", gp = gpar(fontsize = 8), track_index = 2)
+spiral_text(49315286, 0.5, "H3K4me1", hjust = 1, facing = "inside", gp = gpar(fontsize = 8), track_index = 3)
+spiral_text(49315286, 0.5, "H3K4me3", hjust = 1, facing = "inside", gp = gpar(fontsize = 8), track_index = 4)
+spiral_text(49315286, 0.5, "H3K9me3", hjust = 1, facing = "inside", gp = gpar(fontsize = 8), track_index = 5)
+spiral_text(49315286, 0.5, "H3K27ac", hjust = 1, facing = "inside", gp = gpar(fontsize = 8), track_index = 6)
 
 lgd = packLegend(list = lgd_list, max_height = unit(8, "in"))
 draw(lgd, x = unit(1, "npc") + unit(2, "mm"), just = "left")
