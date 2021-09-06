@@ -170,6 +170,14 @@ The relationship between ratio and $\theta$ has the following form:
 
 $$ ratio = \frac{\mathrm{ln}(\theta + \sqrt{1 + \theta^2})}{4\theta} + \frac{\sqrt{1 + \theta^2}}{4} $$
 
+When $\theta$ gets large,
+
+$$ ratio \approx \frac{\mathrm{ln}(\theta + \theta)}{4\theta} + \frac{\theta}{4} \approx \frac{\theta}{4} $$
+
+Denote $k$ as the number of loops, i.e. $\theta = 2\pi \cdot k$, then,
+
+$$ ratio \approx \frac{\theta}{4} = \frac{\pi}{2} \cdot k $$
+
 
 ## The layout of the spiral
 
