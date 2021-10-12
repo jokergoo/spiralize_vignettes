@@ -432,6 +432,39 @@ draw(lgd, x = unit(1, "npc") + unit(2, "mm"), just = "left")
 ```
 
 
+## Circadian gene expression
+
+This example visualizes circadian expression for gene Elf1 in mouse. The data is from [Ray et al., 2020](https://www.science.org/doi/10.1126/science.aaw7365).
+Normally, circadian expression data has a period of 24 hours. In this dataset, gene expression was measures every 3 hours for continuous 3 days.
+Also in the data there are two categories: WT and KO.
+
+```{r}
+# values are log(FPKM)
+expr = readRDS(system.file("extdata", "circadian_expression_mouse_Elf1.rds", package = "spiralize"))
+expr
+```
+
+Heatmap is used to visualize the data.
+
+```{r, fig.height = 8, fig.width = 10}
+t = seq(0, 69, by = 3)
+rg = range(expr)
+
+col = colorRamp2(c(rg[1], mean(rg), rg[2]), c("blue", "#F7F7F7", "red"))
+spiral_initialize(xlim = c(0, 69), period = 24, polar_lines_by = 45,
+    vp_param = list(x = unit(0, "npc"), just = "left"))
+spiral_track(ylim = c(0, 1), height = 0.7)
+spiral_rect(t - 1.5, 0, t + 1.5, 0.5, gp = gpar(fill = col(expr[1:24])))
+spiral_rect(t - 1.5, 0.5, t + 1.5, 1, gp = gpar(fill = col(expr[1:24 + 24])))
+spiral_axis(at = t, labels = paste0(t, "h"), h = "bottom")
+
+spiral_text(69 + 1.6, 0.25, "WT", just = "left", facing = "outside")
+spiral_text(69 + 1.6, 0.75, "KO", just = "left", facing = "outside")
+
+lgd = Legend(title = "log(FPKM)", col_fun = col)
+draw(lgd, x = unit(1, "npc") + unit(2, "mm"), just = "left")
+```
+
 ## GitHub commits
 
 This example visualizes my GitHub daily commits from 2013-04-18 to 2021-07-01. The data is retrieved by the following code:
