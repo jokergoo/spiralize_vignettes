@@ -95,6 +95,18 @@ at = seq(as.POSIXlt("2021-01-01 00:00:00"), as.POSIXlt("2021-01-05 00:00:00"), b
 spiral_axis(at = at)
 ```
 
+In the last example of this section, I let the spiral go clockwisely and put 0/12 o'clock on the 
+top of each loop:
+
+
+```{r}
+spiral_initialize_by_time(xlim = c("2021-01-01 00:00:00", "2021-01-05 00:00:00"),
+    start = 360 + 90, flip = "horizontal")
+spiral_track(height = 0.6)
+at = seq(as.POSIXlt("2021-01-01 00:00:00"), as.POSIXlt("2021-01-05 00:00:00"), by = 2*60*60)
+spiral_axis(at = at)
+```
+
 ## Work with genomic coordinates
 
 Genomic data can be represented as a data frame (e.g. in _bed_ format), or as
