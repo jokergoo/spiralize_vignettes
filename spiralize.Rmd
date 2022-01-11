@@ -222,6 +222,7 @@ spiral_clear()
 popViewport()
 ```
 
+
 Argument `flip` controls how to flip the spiral. It accpets one of the four values: `"none"`/`"horizontal"`/`"vertical"`/`"both"`.
 Examples are as follows. In the examples, I additionally add the axes in the tracks to show in which direction the data extends along
 the spiral. I also manually adjust the height of the track to give enough space for axes.
