@@ -74,7 +74,7 @@ for(i in seq_along(d)) {
         rot = ifelse(d[i] > 0 & d[i] < 180, d[i] - 90, d[i] + 90), gp = gpar(fontsize = 10))
 }
 
-x = s$get_numeric_x(c("2021-01-01 00:00:00", "2021-01-04 23:59:59"))
+x = s$get_x_from_data(c("2021-01-01 00:00:00", "2021-01-04 23:59:59"))
 df = xy_to_cartesian(x, 0.5)
 grid.text("2012-01-01\n00:00:00", df$x[1], df$y[1], default.units = "native", vjust = 1.2,
     gp = gpar(fontsize = 8))

@@ -17,7 +17,6 @@ library(knitr)
 knitr::opts_chunk$set(
     error = FALSE,
     tidy  = FALSE,
-    message = FALSE,
     warning = FALSE,
     fig.width = 7,
     fig.height = 7,
@@ -96,15 +95,82 @@ spiral_axis(at = at)
 ```
 
 In the last example of this section, I let the spiral go clockwisely and put 0/12 o'clock on the 
-top of each loop:
+top of each loop (simply done by setting `clockwise = TRUE`) and each loop corresponds to 12 hours:
 
 
 ```{r}
-spiral_initialize_by_time(xlim = c("2021-01-01 00:00:00", "2021-01-05 00:00:00"),
-    start = 360 + 90, flip = "horizontal")
+spiral_initialize_by_time(xlim = c("2021-01-01 00:00:00", "2021-01-03 00:00:00"),
+    start = 360 + 90, period_per_loop = 0.5, clockwise = TRUE)
 spiral_track(height = 0.6)
 at = seq(as.POSIXlt("2021-01-01 00:00:00"), as.POSIXlt("2021-01-05 00:00:00"), by = 2*60*60)
 spiral_axis(at = at)
+```
+
+When each loop corresponds to a year and units on axis are days, maybe you
+have already seen the messages in the previous examples, by default, each loop
+actually corresponds to only 52 weeks (364 days) and the remaining 1 or 2
+days will be added and accumulated to the next year. This might be a problem
+when there are many loops (many years). In the following left plot where we
+visualize 10 years, the total accumuated years result in about 15 degrees exceeding
+the full circle. The function `spiral_initialize_by_time()` allows to set an
+argument `normalize_year = TRUE` so that each loop is perfectly a year. But
+users need to be cautious that now it is not easy to correspond weekdays
+between years because they are not perfectly aligned.
+
+
+```{r, eval = FALSE}
+# the left plot
+spiral_initialize_by_time(xlim = c("2010-01-01", "2019-12-31"))
+spiral_track()
+for(i in 0:9) {
+    # years() is from lubridate package
+    spiral_text(as.POSIXlt("2010-01-01") + years(i), 0.5, 2010 + i, facing = "inside")
+}
+
+# the right plot
+spiral_initialize_by_time(xlim = c("2010-01-01", "2019-12-31"),
+    normalize_year = TRUE)
+spiral_track()
+for(i in 0:9) {
+    spiral_text(as.POSIXlt("2010-01-01") + years(i), 0.5, 2010 + i, facing = "inside")
+}
+
+```
+
+```{r, echo = FALSE, fig.width = 10, fig.height = 5, message = FALSE}
+p1 = grid.grabExpr({
+    spiral_initialize_by_time(xlim = c("2010-01-01", "2019-12-31"))
+    spiral_track()
+    for(i in 0:9) {
+        spiral_text(as.POSIXlt("2010-01-01") + years(i), 0.5, 2010 + i, facing = "inside")
+    }
+    grid.text("default", 0, 1, just = c("left", "top"), gp = gpar(fontsize = 14))
+}, width = 5, height = 5)
+p2 = grid.grabExpr({
+    spiral_initialize_by_time(xlim = c("2010-01-01", "2019-12-31"),
+        normalize_year = TRUE)
+    spiral_track()
+    for(i in 0:9) {
+        spiral_text(as.POSIXlt("2010-01-01") + years(i), 0.5, 2010 + i, facing = "inside")
+    }
+    grid.text("normalize_year = TRUE", 0, 1, just = c("left", "top"), gp = gpar(fontsize = 14))
+}, width = 5, height = 5)
+plot_grid(p1, p2)
+```
+
+Last, when each loop corresponds to a year and units on axis are days, and
+when `normalize_year` is set to `TRUE`, the background sectors partitioned by
+dashed radical lines actually correspond to the proportion of month days in a year, i.e., the
+width of Feburary is the smallest.
+
+```{r}
+spiral_initialize_by_time(xlim = c("2010-01-01", "2014-12-31"), normalize_year = TRUE)
+spiral_track()
+for(i in 0:11) {
+    d = as.POSIXlt("2014-01-15") + months(i)
+    spiral_text(d, 1.5, month.name[month(d)], gp = gpar(fontsize = 8), 
+        facing = "inside", nice_facing = TRUE)
+}
 ```
 
 ## Work with genomic coordinates

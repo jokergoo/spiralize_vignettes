@@ -277,6 +277,60 @@ p4 = grid.grabExpr({
 plot_grid(p1, p2, p3, p4, nrow = 2)
 ```
 
+More easily, you can directly set `clockwise = TRUE` to change the orientation of the
+spiral. Compare the following plots:
+
+
+```{r, eval = FALSE}
+# the top left plot
+spiral_initialize(start = 45 + 360) # default
+spiral_track(height = 0.6)
+spiral_axis()
+
+# the top right plot
+spiral_initialize(start = 45 + 360, clockwise = TRUE)
+spiral_track(height = 0.6)
+spiral_axis()
+
+# the bottom left plot
+spiral_initialize(start = 135 + 360)
+spiral_track(height = 0.6)
+spiral_axis()
+
+# the bottom right plot
+spiral_initialize(start = 135 + 360, clockwise = TRUE)
+spiral_track(height = 0.6)
+spiral_axis()
+```
+
+```{r, fig.width = 10, fig.height = 10, echo = FALSE}
+p1 = grid.grabExpr({
+    spiral_initialize(start = 45 + 360)
+    spiral_track(height = 0.6)
+    spiral_axis()
+    grid.text("default", 0, 1, just = c("left", "top"), gp = gpar(fontsize = 14))
+})
+p2 = grid.grabExpr({
+    spiral_initialize(start = 45 + 360, clockwise = TRUE)
+    spiral_track(height = 0.6)
+    spiral_axis()
+    grid.text("clockwise = TRUE", 0, 1, just = c("left", "top"), gp = gpar(fontsize = 14))
+})
+p3 = grid.grabExpr({
+    spiral_initialize(start = 135 + 360)
+    spiral_track(height = 0.6)
+    spiral_axis()
+    grid.text("default", 0, 1, just = c("left", "top"), gp = gpar(fontsize = 14))
+})
+p4 = grid.grabExpr({
+    spiral_initialize(start = 135 + 360, clockwise = TRUE)
+    spiral_track(height = 0.6)
+    spiral_axis()
+    grid.text("clockwise = TRUE", 0, 1, just = c("left", "top"), gp = gpar(fontsize = 14))
+})
+plot_grid(p1, p2, p3, p4, nrow = 2)
+```
+
 Argument `scale_by` controls how to linearly scale the data on the
 spiral. It allows value of `"angle"` or `"curve_length"` (or for short,
 `"curve"`). `"angle"` means equal difference on data corresponds to equal
@@ -994,6 +1048,10 @@ spiral_horizon(1:nrow(df) - 0.5, df$diff, use_bars = TRUE)
 ```
 
 When using bars, argument `bar_width` can be set as a vector if the bar widths are not all equal.
+
+Note, in this example, "time" objects can be directly used as value on x-axis.
+See vignettes ["Initialize Spirals by Special Data Types"](special_data_type.html)
+and ["Real World Examples"](examples.html) for examples.
 
 ### Images
 
