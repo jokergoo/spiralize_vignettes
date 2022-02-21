@@ -586,6 +586,13 @@ spiral_raster(0.5, 0.5, image, facing = "curved_inside")
 
 <img src="qing_ming_shang_he_tu.png" width="100%" />
 
+## The COVID-19 daily increase
+
+The COVID-19 daily increase is basically a time series data, thus it is natural to visualize it via spirals. I have implemented it
+in a Shiny application (https://jokergoooo.shinyapps.io/covid19/). The source code for generating this app is avaiable at https://gist.github.com/jokergoo/fa39ee3dcf20cbc13a31bbe93c3498fb.
+
+<img src="https://user-images.githubusercontent.com/449218/154753102-d66b3588-eca1-471b-bdfe-2c147ed257f5.gif" width="100%" />
+
 <script src="jquery.min.js"></script>
 <script src="jquery.sticky.js"></script>
 <script>
