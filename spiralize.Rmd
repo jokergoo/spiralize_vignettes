@@ -1053,6 +1053,9 @@ Note, in this example, "time" objects can be directly used as value on x-axis.
 See vignettes ["Initialize Spirals by Special Data Types"](special_data_type.html)
 and ["Real World Examples"](examples.html) for examples.
 
+Lessly used, users can explicitly set the argument `y_max` to the maximal absolute values for `y`. This 
+would be useful when there are multiple horizon chart tracks and to make them compariable. 
+
 ### Images
 
 `spiral_raster()` adds images to the spiral. Currently it supports formats of png/svg/pdf/eps/jpeg/jpg/tiff. The formats
