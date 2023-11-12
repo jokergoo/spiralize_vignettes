@@ -25,6 +25,13 @@ knitr::opts_chunk$set(
     fig.align = "center",
     fig.retina = 2
 )
+knitr::knit_hooks$set(pngquant = knitr::hook_pngquant)
+knitr::opts_chunk$set(
+  message = FALSE,
+  dev = "ragg_png",
+  fig.align = "center",
+  pngquant = "--speed=10 --quality=30"
+)
 options(width = 100)
 ```
 
@@ -584,7 +591,7 @@ spiral_track()
 spiral_raster(0.5, 0.5, image, facing = "curved_inside")
 ```
 
-<img src="qing_ming_shang_he_tu.png" width="100%" />
+<img src="qing_ming_shang_he_tu_small.png" width="100%" />
 
 ## The COVID-19 daily increase
 
